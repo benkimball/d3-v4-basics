@@ -12,8 +12,13 @@ var category_names = [
 ];
 var data = rnd_hist(category_names);
 
-var width = 600,
-    height = 300;
+var canvas_width = 600,
+    canvas_height = 300;
+
+/* d3 "Conventional Margins": http://bl.ocks.org/mbostock/3019563 */
+var margin = {top: 20, right: 10, bottom: 20, left: 10};
+var width = canvas_width - margin.left - margin.right,
+    height = canvas_height - margin.top - margin.bottom;
 
 /*
  * Set up scales for the X and Y axes
@@ -25,17 +30,16 @@ var x = d3.scaleLinear()
         .domain(category_names)
         .range([0, height])
         .padding(0.1);
-/*
- * Plotting
- */
 
 /* Create a 600x300 SVG element and append it to <body> with class `plot` */
 var svg = d3
   .select("body")
     .append("svg")
       .attr("class", "plot")
-      .attr("width", width)
-      .attr("height", height);
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 svg
   .selectAll('.category') // create (empty) selection
