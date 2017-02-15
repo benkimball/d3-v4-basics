@@ -7,10 +7,24 @@
  * [{category: 'foo', count: 23}, {category: 'bar', count: 31}]
  */
 
-var data = rnd_hist([
+var category_names = [
   "video", "link", "photo", "audio", "chat", "quote", "answer", "text"
-]);
+];
+var data = rnd_hist(category_names);
 
+var width = 600,
+    height = 300;
+
+/*
+ * Set up scales for the X and Y axes
+ */
+var x = d3.scaleLinear()
+        .domain([0, 99])
+        .rangeRound([0, width]),
+    y = d3.scaleBand()
+        .domain(category_names)
+        .range([0, height])
+        .padding(0.1);
 /*
  * Plotting
  */
@@ -20,8 +34,8 @@ var svg = d3
   .select("body")
     .append("svg")
       .attr("class", "plot")
-      .attr("width", 600)
-      .attr("height", 300);
+      .attr("width", width)
+      .attr("height", height);
 
 svg
   .selectAll('.category') // create (empty) selection
@@ -30,9 +44,9 @@ svg
   .append('rect') // for each item in the 'enter' selection, append a <rect> SVG element
     .attr('class', 'category') // whose class attribute is 'category'
     .attr('x', 0.5) // and whose left side is at the left edge of the SVG
-    .attr('width', function(d) { return d.count; }) // whose width is exactly the count for the category
-    .attr('y', function(d, i) { return i * 20 + 0.5; }) // whose top edge is 20px down the page per item
-    .attr('height', 10); // and whose height is 10px
+    .attr('width', function(d) { return x(d.count); }) // whose width is exactly the count for the category
+    .attr('y', function(d, i) { return y(d.category); }) // whose top edge is 20px down the page per item
+    .attr('height', y.bandwidth()); // and whose height is 10px
 
 
 /*
