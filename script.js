@@ -9,7 +9,7 @@ var data = rnd_hist([
 var category = d3
   .select("body")
   .selectAll(".category") // create (empty) selection
-  .data(data); // perform data join, returning 'update' selection
+  .data(data.sort(category_order)); // perform data join, returning 'update' selection
 
 category // from the 'update' selection,
   .enter() // retrieve 'enter' selection
@@ -26,4 +26,10 @@ function rnd_hist(labels) {
     hist.push({category:label, count:ct});
   });
   return(hist);
-}
+};
+
+function category_order(a, b) {
+  if(a.category > b.category) return 1;
+  else if(a.category < b.category) return -1;
+  return 0;
+};
