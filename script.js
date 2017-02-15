@@ -29,9 +29,9 @@ svg
   .enter() // retrieve 'enter' selection
   .append('rect') // for each item in the 'enter' selection, append a <rect> SVG element
     .attr('class', 'category') // whose class attribute is 'category'
-    .attr('x', 0) // and whose left side is at the left edge of the SVG
+    .attr('x', 0.5) // and whose left side is at the left edge of the SVG
     .attr('width', function(d) { return d.count; }) // whose width is exactly the count for the category
-    .attr('y', function(d, i) { return i * 20; }) // whose top edge is 20px down the page per item
+    .attr('y', function(d, i) { return i * 20 + 0.5; }) // whose top edge is 20px down the page per item
     .attr('height', 10); // and whose height is 10px
 
 
